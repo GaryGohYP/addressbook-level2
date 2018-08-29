@@ -12,7 +12,11 @@ public class Address {
     public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
 
-    public final String value;
+    private final String value;
+    private final Block block;
+    private final Street street;
+    private final Unit unit;
+    private final PostalCode postalCode;
     private boolean isPrivate;
 
     /**
@@ -22,18 +26,32 @@ public class Address {
      */
     public Address(String address, boolean isPrivate) throws IllegalValueException {
         String trimmedAddress = address.trim();
+        String[] addressComponents = trimmedAddress.split(", ");
+
         this.isPrivate = isPrivate;
-        if (!isValidAddress(trimmedAddress)) {
+        if (!isValidAddress(trimmedAddress, addressComponents)) {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
-        this.value = trimmedAddress;
+        this.block = new Block(addressComponents[0]);
+        this.street = new Street(addressComponents[1]);
+        this.unit = new Unit(addressComponents[2]);
+        this.postalCode = new PostalCode(addressComponents[3]);
+        this.value = this.block.getBlock() + ", " + this.street.getStreet() + ", " + this.unit.getUnit() + ", "
+                + this.postalCode.getPostalCode();
     }
 
     /**
      * Returns true if a given string is a valid person address.
      */
-    public static boolean isValidAddress(String test) {
-        return test.matches(ADDRESS_VALIDATION_REGEX);
+    public static boolean isValidAddress(String test, String[] addressComponents) {
+        return test.matches(ADDRESS_VALIDATION_REGEX) && addressComponents.length == 4;
+    }
+
+    /**
+     * Retrieves the string representation of the address.
+     */
+    public String getValue() {
+        return this.value;
     }
 
     @Override
