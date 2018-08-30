@@ -2,6 +2,7 @@ package seedu.addressbook.ui;
 
 import static seedu.addressbook.common.Messages.MESSAGE_GOODBYE;
 import static seedu.addressbook.common.Messages.MESSAGE_INIT_FAILED;
+import static seedu.addressbook.common.Messages.MESSAGE_OPERATION_FAILED;
 import static seedu.addressbook.common.Messages.MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE;
 import static seedu.addressbook.common.Messages.MESSAGE_USING_STORAGE_FILE;
 import static seedu.addressbook.common.Messages.MESSAGE_WELCOME;
@@ -108,6 +109,11 @@ public class TextUi {
     public void showInitFailedMessage() {
         showToUser(MESSAGE_INIT_FAILED, Formatter.addDivider(2));
     }
+
+    public void showOperationFailedMessage() {
+        showToUser(MESSAGE_OPERATION_FAILED, Formatter.addDivider(2));
+    }
+
 
     /** Shows message(s) to the user */
     public void showToUser(String... message) {
